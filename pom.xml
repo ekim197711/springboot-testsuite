@@ -13,6 +13,23 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>springboot-testsuite</name>
     <description>springboot-testsuite</description>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <properties>
+                <donotrun>do-not-run-per-default</donotrun>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>runAllTests</id>
+            <properties>
+                <donotrun>this-tag-does-not-exist</donotrun>
+            </properties>
+        </profile>
+    </profiles>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -51,6 +68,13 @@
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <excludedGroups>${donotrun}</excludedGroups>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
